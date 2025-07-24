@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Forever</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      text-align: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      margin-top: 50px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    button {
+      padding: 15px 30px;
+      background: #fff;
+      color: #d63384;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.2em;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ffe6f0;
+    }
+
+    .popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 999;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .popup img {
+      width: 300px;
+      max-width: 90%;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: scaleIn 0.5s ease-out;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1.4em;
+      color: #fff;
+      max-width: 80%;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .close-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      background: #fff;
+      color: #d63384;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes scaleIn {
+      from {transform: scale(0.7);}
+      to {transform: scale(1);}
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 8s linear infinite;
+      opacity: 0.6;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Background Audio Toggle (optional) */
+    .audio-control {
+      position: fixed;
+      bottom: 15px;
+      right: 20px;
+      background: white;
+      color: #d63384;
+      padding: 10px;
+      border-radius: 15px;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>I LOVE YOU FOR EVER AND EVER BABY LOVE LOVE</h1>
+  <button onclick="showPopup()">Click to see heart warming messages</button>
+
+  <!-- Floating Hearts -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 4 + Math.random() * 6 + 's';
+      heart.style.opacity = Math.random();
+      heart.style.background = ['#ff5e7e', '#ff869a', '#ffb3c6'][Math.floor(Math.random()*3)];
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 10000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+
+  <!-- Pop-Up Viewer -->
+  <div id="popup" class="popup">
+    <img id="popup-img" src="" alt="Love Memory">
+    <div class="message" id="popup-msg"></div>
+    <button class="close-btn" onclick="nextImage()">Next</button>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="love.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+  <div class="audio-control" onclick="toggleAudio()">🔊 Toggle Music</div>
+
+  <script>
+    const images = [
+      {
+        src: "img1.jpg",
+        msg: "From the top of the mountain to the depths of my heart every step with you is worth it. 💘"
+      },
+      {
+        src: "img2.jpg",
+        msg: "Even your cutest and most gorgeous faces are my favorite view. You’re my cutiepie and my forever. 😚💞"
+      },
+      {
+        src: "img3.jpg",
+        msg: "This smile, this moment, this love it’s all I’ve ever needed and more mwamwamwa. 🥰"
+      }
+    ];
+
+    let current = 0;
+
+    function showPopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'flex';
+      updatePopup();
+    }
+
+    function updatePopup() {
+      const img = document.getElementById('popup-img');
+      const msg = document.getElementById('popup-msg');
+      img.src = images[current].src;
+      msg.textContent = images[current].msg;
+    }
+
+    function nextImage() {
+      current++;
+      if (current >= images.length) {
+        document.getElementById('popup').style.display = 'none';
+        current = 0;
+      } else {
+        updatePopup();
+      }
+    }
+
+    function toggleAudio() {
+      const music = document.getElementById('bgMusic');
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+  </script>
+</body>
+</html>
